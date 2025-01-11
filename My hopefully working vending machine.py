@@ -36,21 +36,19 @@ class my_beautiful_and_hopefully_working_vendingmachine:
                 print(f"You've inserted ${amount:.2f}. Current balance: ${vend.balance:.2f}")
                 return
             except ValueError:
-                print("Invalid input. Please enter a valid number.")
+                print("Invalid input. Please enter real money.")
 
-    def user_balance(vend, selected_code):  # this will check if the user has paid enough
+    def change(vend, selected_code):  # this will check if the user has enough balance and if they have change
         item = vend.menu[selected_code]
-        while vend.balance < item["price"]:  # loop until the balance is sufficient
+        while vend.balance < item["price"]:  # loop until the user balance is enough
             required_amount = item["price"] - vend.balance
             print(f"Not enough mula. give me at least ${required_amount:.2f} more.")
             try:
                 additional_money = float(input("Insert additional money: "))
                 if additional_money > 0:
                     vend.balance += additional_money
-                else:
-                    print("Please insert a valid amount.")
             except ValueError:
-                print("Invalid input. Please enter a numerical value.")
+                print("Please enter a number.")
         change = vend.balance - item["price"]  # stores change if there is change to be given
         print(f"Dispensing your {item['name']} enjoy your {item['name']}")
         if change > 0:  # checks if there's change to be returned
@@ -59,13 +57,12 @@ class my_beautiful_and_hopefully_working_vendingmachine:
           print("No change to return.")
         return True
 
-
     def run(vend):#This function is to call every function I made to run the vending machine.
         while True:
             vend.display_menu()#display the menu to the user
             selected_code = vend.select() #stores the selected item
             vend.money()#add money to the current users balance
-            if not vend.user_balance(selected_code): #compares if balance is enough and if there is change return
+            if not vend.change(selected_code): #compares if there is change return and if user have enough balance
                 continue
             while True: #this will a create a loop that will allow the user to buy more items
                 more_items = input("Do you want to buy more items? (y/n): ").lower()
@@ -77,7 +74,20 @@ class my_beautiful_and_hopefully_working_vendingmachine:
                 else:
                     print("Invalid input. Please enter 'y' or 'n'.")
 # creating a variable that will call the class and run it
+print("""
+ _    _  ____  __    ___  _____  __  __  ____    ____  _____    __  __  _  _    _  _  ____  _  _  ____  ____  _  _  ___    __  __    __    ___  _   _  ____  _  _  ____ 
+( \/\/ )( ___)(  )  / __)(  _  )(  \/  )( ___)  (_  _)(  _  )  (  \/  )( \/ )  ( \/ )( ___)( \( )(  _ \(_  _)( \( )/ __)  (  \/  )  /__\  / __)( )_( )(_  _)( \( )( ___)
+ )    (  )__)  )(__( (__  )(_)(  )    (  )__)     )(   )(_)(    )    (  \  /    \  /  )__)  )  (  )(_) )_)(_  )  (( (_-.   )    (  /(__)\( (__  ) _ (  _)(_  )  (  )__) 
+(__/\__)(____)(____)\___)(_____)(_/\/\_)(____)   (__) (_____)  (_/\/\_) (__)     \/  (____)(_)\_)(____/(____)(_)\_)\___/  (_/\/\_)(__)(__)\___)(_) (_)(____)(_)\_)(____)
+""")
+
 vending_machine = my_beautiful_and_hopefully_working_vendingmachine()
 vending_machine.run()
 
+print("""
+  ___   __    __  ____    ____  _  _  ____         ____  __ _    __   __  _  _  _   
+ / __) /  \  /  \(    \  (  _ \( \/ )(  __)   _   (  __)(  ( \ _(  ) /  \( \/ )/ \  
+( (_ \(  O )(  O )) D (   ) _ ( )  /  ) _)   ( )   ) _) /    // \) \(  O ))  / \_/  
+ \___/ \__/  \__/(____/  (____/(__/  (____)  (/   (____)\_)__)\____/ \__/(__/  (_)  
 
+""")
